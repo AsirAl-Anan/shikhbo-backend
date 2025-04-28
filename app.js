@@ -17,7 +17,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "https://shikhbo-frontend.onrender.com", "https://appshikhbo.netlify.app"],
+  origin: ["https://appshikhbo.netlify.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
 
   credentials: true
@@ -46,7 +46,7 @@ const server = http.createServer(app);
 // Create Socket.IO server
 const io = new Server(server, {
   cors: {
-    origin:  "http://localhost:5173",
+    origin:  "https://appshikhbo.netlify.app",
     credentials: true,
   }
 });
