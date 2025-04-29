@@ -95,8 +95,16 @@ Student Question: ${userPrompt}
 Provide your thoughtful response as a helpful tutor:`;
 };
 
-// AI Response Generator with multimodal support
-export const generateAiResponse = async (prompt, imagePath = null) => {
+// Format conversation history for Gemini
+const formatConversationHistory = (messages) => {
+  return messages.map(msg => ({
+    role: msg.sender === "user" ? "user" : "model",
+    parts: [{ text: msg.text }]
+  }));
+};
+
+// AI Response Generator with multimodal support and conversation history
+export const generateAiResponse = async (prompt, chatHistory = [], imagePath = null) => {
   try {
     const model = await gemini.getGenerativeModel({ model: "gemini-2.5-flash-preview-04-17" });
     
@@ -107,13 +115,37 @@ export const generateAiResponse = async (prompt, imagePath = null) => {
     const tutorPrompt = createTutorPrompt(prompt, detectedLanguage, !!imagePath);
     
     let result;
-    if (imagePath) {
-      // Multimodal request with text and image
-      const imageData = processImage(imagePath);
-      result = await model.generateContent([tutorPrompt, imageData]);
+    
+    // Check if we have chat history and need to maintain context
+    if (chatHistory && chatHistory.length > 0) {
+      // Format history for Gemini chat API
+      const formattedHistory = formatConversationHistory(chatHistory);
+      
+      // Start a chat session with history
+      const chat = model.startChat({
+        history: formattedHistory.slice(0, -1), // Exclude the latest message which we'll send as a new message
+        generationConfig: {
+          maxOutputTokens: 2048,
+        }
+      });
+      
+      // Send the current message with image if present
+      if (imagePath) {
+        const imageData = processImage(imagePath);
+        result = await chat.sendMessage([tutorPrompt, imageData]);
+      } else {
+        result = await chat.sendMessage(tutorPrompt);
+      }
     } else {
-      // Text-only request
-      result = await model.generateContent(tutorPrompt);
+      // No history, use standard generateContent for first message
+      if (imagePath) {
+        // Multimodal request with text and image
+        const imageData = processImage(imagePath);
+        result = await model.generateContent([tutorPrompt, imageData]);
+      } else {
+        // Text-only request
+        result = await model.generateContent(tutorPrompt);
+      }
     }
     
     const response = result.response;
@@ -177,8 +209,8 @@ export const startNewChat = async (userId, prompt, imagePath = null) => {
     image: imagePath ? `/uploads/${imagePath.split('/').pop()}` : null
   });
   
-  // Generate AI response
-  const aiResponse = await generateAiResponse(prompt, imagePath);
+  // Generate AI response - no history for first message
+  const aiResponse = await generateAiResponse(prompt, [], imagePath);
   
   // Create AI message
   const aiMessage = await Message.create({
@@ -202,10 +234,6 @@ export const continueChat = async (chatId, prompt, imagePath = null) => {
   
   // Get previous chat history to maintain context
   const previousMessages = await Message.find({ chatId }).sort({ createdAt: 1 });
-  const chatHistory = previousMessages.map(msg => ({
-    role: msg.sender === "user" ? "user" : "model",
-    content: msg.text
-  }));
   
   // Create the new user message
   const userMessage = await Message.create({
@@ -215,8 +243,11 @@ export const continueChat = async (chatId, prompt, imagePath = null) => {
     image: imagePath ? `/uploads/${imagePath.split('/').pop()}` : null
   });
   
+  // Add the new user message to the history array
+  const updatedHistory = [...previousMessages, userMessage];
+  
   // Generate AI response with context from previous conversation
-  const aiResponse = await generateAiResponse(prompt, imagePath);
+  const aiResponse = await generateAiResponse(prompt, updatedHistory, imagePath);
   
   const aiMessage = await Message.create({
     chatId,
