@@ -38,13 +38,15 @@ export const createUser = async (req, res) => {
     // Set cookies
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
+       sameSite:"None",
       maxAge: 86400000  // 1 day
     });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
+      sameSite:"None",
       maxAge: 604800000 // 7 days
     });
 
@@ -90,17 +92,17 @@ export const signInUser = async (req, res) => {
 
     // Set cookies correctly
     res.cookie('accessToken', accessToken, {
-       httpOnly:false, // false for localhost
-      secure: false, // false for localhost
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000 // 1 day
+      httpOnly: true,
+      secure: true,
+       sameSite:"None",
+      maxAge: 86400000  // 1 day
     });
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly:false, // false for localhost
-      secure: false, // false for localhost
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      httpOnly: true,
+      secure: true,
+      sameSite:"None",
+      maxAge: 604800000 // 7 days
     });
 
     const userWithoutPassword = user.toObject();
