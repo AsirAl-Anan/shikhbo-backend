@@ -6,7 +6,7 @@ import Subject from '../models/Subject.model.js';
 export const adminSignin = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+   
     // Simple validation
     if (!email || !password) {
       return res.status(400).json({ message: 'Please provide email and password' });
@@ -32,7 +32,7 @@ export const adminSignin = async (req, res) => {
 };
 export const getCq = async (req, res) => {
   const { subjectName } = req.params;
-
+ console.log(subjectName)
   try {
     const cqs = await Cq.find({ subject: subjectName });
 
