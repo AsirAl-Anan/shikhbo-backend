@@ -30,19 +30,23 @@ export const adminSignin = async (req, res) => {
     res.status(500).json({ message: 'Server error during login' });
   }
 };
-export const getCq = async (req, res) => { 
+export const getCq = async (req, res) => {
+  const { subjectName } = req.params;
+
   try {
-   const cqs = await Cq.find()
-   if(cqs.length === 0) { 
-    return res.status(404).json({ message: 'No questions found' });
-   } else {
+    const cqs = await Cq.find({ subject: subjectName });
+
+    if (cqs.length === 0) {
+      return res.status(404).json({ message: 'No questions found for this subject' });
+    }
+
     res.status(200).json(cqs);
-   }
-  }catch (error) { 
+  } catch (error) {
     console.error('Get CQ error:', error);
     res.status(500).json({ message: 'Server error while fetching questions' });
   }
 }
+
 // Add new CQ controller
 export const addCq = async (req, res) => {
   try {
