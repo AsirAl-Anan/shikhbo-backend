@@ -17,7 +17,7 @@ adminRouter.post('/signin', adminSignin);
 
 // Protected admin routes
 adminRouter.post('/cq', addCq);
-adminRouter.get('/cq', getCq);
+adminRouter.get('/cq/:subjectName', getCq);
 adminRouter.get('/dashboard-stats', getDashboardStats);
 adminRouter.get('/subject', getSubjects);
 adminRouter.post('/subject', createSubject);
