@@ -40,14 +40,14 @@ export const createUser = async (req, res) => {
       httpOnly: true,
       secure: true,
        sameSite:"None",
-      
+        maxAge: 7 * 24 * 60 * 60 * 1000 //
     });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite:"None",
-    
+      maxAge: 30 * 24 * 60 * 60 * 1000 //
     });
 
     res.status(201).json({
@@ -95,14 +95,14 @@ export const signInUser = async (req, res) => {
       httpOnly: true,
       secure: true,
        sameSite:"None",
-     
+        maxAge: 7 * 24 * 60 * 60 * 1000 //
     });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite:"None",
-     
+        maxAge: 30 * 24 * 60 * 60 * 1000 //
     });
 
     const userWithoutPassword = user.toObject();
