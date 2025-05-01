@@ -185,3 +185,19 @@ export const logoutUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
+/// exam related functions
+
+
+export const startExam = async (req, res) => {
+  const { subject, numberOfCq, numberOfMcq, maxTime } = req.body;
+  console.log("Exam Start Request:", req.body);
+  try {
+    console.log("Subject:", subject);
+  } catch (error) {
+    console.error("Error starting exam:", error);
+    res.status(500).json({ message: "Server error while creating exam", error: error.message });
+    
+  }
+ }

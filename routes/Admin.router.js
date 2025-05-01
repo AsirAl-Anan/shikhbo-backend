@@ -7,7 +7,8 @@ import {
   createSubject, 
   updateSubject, 
   deleteSubject ,
-  getCq
+  getCq,
+  addMcq
 } from '../controllers/Admin.controller.js';
 
 const adminRouter = express.Router();
@@ -17,6 +18,7 @@ adminRouter.post('/signin', adminSignin);
 
 // Protected admin routes
 adminRouter.post('/cq', addCq);
+adminRouter.post('/mcq', addMcq);
 adminRouter.get('/cq/:subjectName', getCq);
 adminRouter.get('/dashboard-stats', getDashboardStats);
 adminRouter.get('/subject', getSubjects);

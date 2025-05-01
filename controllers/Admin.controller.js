@@ -46,6 +46,55 @@ export const getCq = async (req, res) => {
     res.status(500).json({ message: 'Server error while fetching questions' });
   }
 }
+export const addMcq = async (req, res) => { 
+  try {
+    const {
+      question,
+      a,
+      b,
+      c,
+      d,
+      board,
+      year,
+      subject,
+      chapter,
+      topic
+    } = req.body;
+   
+    // Validate required fields
+    if (  !a||  !b ||  !c || !d  || !question || !board || !year || !subject || !chapter || !topic) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Create new MCQ
+    const newMcq = new Mcq({
+      
+      question,
+      a,
+      b,
+      c,
+      d,
+      board,
+      year,
+      subject,
+      chapter,
+      topic
+    });
+
+    // Save to database
+    await newMcq.save();
+
+    res.status(201).json({
+      success: true, 
+      message: 'Question added successfully',
+      mcq: newMcq 
+    });
+
+  } catch (error) {
+    console.error('Add MCQ error:', error);
+    res.status(500).json({ message: 'Server error while adding question' });
+  }
+}
 
 // Add new CQ controller
 export const addCq = async (req, res) => {
@@ -64,7 +113,7 @@ export const addCq = async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!stem || !a?.question || !a?.answer || 
+    if (!a?.question || !a?.answer || 
         !b?.question || !b?.answer || 
         !c?.question || !c?.answer || 
         !d?.question || !d?.answer || 
