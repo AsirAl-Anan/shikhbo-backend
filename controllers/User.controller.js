@@ -1,7 +1,8 @@
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
-
+import Cq from "../models/Cq.model.js";
+import MCQ from "../models/Mcq.model.js";
 // Create a new user
 export const createUser = async (req, res) => {
   const {  email, password,username } = req.body;
@@ -191,7 +192,7 @@ export const logoutUser = async (req, res) => {
 
 
 export const startExam = async (req, res) => {
-  const { subject, numberOfCq, numberOfMcq, maxTime } = req.body;
+  const { subject, numberOfCq, numberOfMcq, duration } = req.body;
   console.log("Exam Start Request:", req.body);
   try {
     console.log("Subject:", subject);

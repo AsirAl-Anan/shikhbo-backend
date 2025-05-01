@@ -1,7 +1,7 @@
 // models/MCQ.js
 import mongoose from "mongoose";
 
-const mcqSchema = new mongoose.Schema({
+export const mcqSchema = new mongoose.Schema({
   question: { type: String, required: true },
 
   options: {

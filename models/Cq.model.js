@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose, { Schema } from 'mongoose';
 
-const CqSchema = new Schema({
+export const CqSchema = new Schema({
     stem: {
         type: String,
         required: true
