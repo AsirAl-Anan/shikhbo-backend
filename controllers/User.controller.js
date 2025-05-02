@@ -195,6 +195,7 @@ export const logoutUser = async (req, res) => {
  export const startExam = async (req, res) => {
   let { subject, mcqCount, cqCount, examDuration, examType } = req.body;
   subject = subject.toLowerCase().toString()
+   console.log("subject is subject ", subject)
   const userId = req.user._id
    console.log("userId : ", userId)
   try {
