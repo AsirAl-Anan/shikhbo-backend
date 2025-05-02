@@ -194,7 +194,8 @@ export const logoutUser = async (req, res) => {
 
  export const startExam = async (req, res) => {
   let { subject, mcqCount, cqCount, examDuration, examType } = req.body;
-  subject = subject.toLowerCase().toString()
+ subject = String(subject).toLowerCase().replace(/\s+/g, '');
+
    console.log("subject is subject ", subject)
   const userId = req.user._id
    console.log("userId : ", userId)
@@ -217,7 +218,7 @@ export const logoutUser = async (req, res) => {
     // Initialize exam data
   
 const examData = {
-  subject: subject.toString().toLowerCase(),
+  subject,
   duration: examDuration,
   userId,
   startTime: new Date(),
