@@ -196,7 +196,6 @@ export const logoutUser = async (req, res) => {
   const { subject, mcqCount, cqCount, examDuration, examType } = req.body;
   const userId = req.user._id
   try {
-    console.log("Subject:", subject, "mcq":, mcq,cqCount, examDuration, examType, userId );
     
     if (!subject || !examDuration || !examType) {
       return res.status(400).json({ 
