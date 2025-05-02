@@ -266,7 +266,7 @@ const examData = {
         { $match: { subject: subject } },
         { $sample: { size: cqCount } }
       ]);
-      
+      console.log("cqs", cqs)
       if (cqs.length < cqCount) {
         return res.status(404).json({
           success: false,
