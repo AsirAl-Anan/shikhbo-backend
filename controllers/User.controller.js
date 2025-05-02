@@ -193,7 +193,8 @@ export const logoutUser = async (req, res) => {
 
 
  export const startExam = async (req, res) => {
-  const { subject, mcqCount, cqCount, examDuration, examType } = req.body;
+  let { subject, mcqCount, cqCount, examDuration, examType } = req.body;
+  subject = subject.toLowerCase().toString()
   const userId = req.user._id
   try {
     
@@ -212,17 +213,18 @@ export const logoutUser = async (req, res) => {
     }
 
     // Initialize exam data
-    const examData = {
-      subject.toString().toLowerCase(),
-      duration: examDuration,
-      userId,
-      startTime: new Date(),
-      endTime: new Date(Date.now() + examDuration * 60 * 1000), // Convert minutes to milliseconds
-      totalMarks: 0,
-      passingMarks: 0,
-      mcqs: [],
-      cqs: []
-    };
+  
+const examData = {
+  subject: subject.toString().toLowerCase(),
+  duration: examDuration,
+  userId,
+  startTime: new Date(),
+  endTime: new Date(Date.now() + examDuration * 60 * 1000), // Convert minutes to milliseconds
+  totalMarks: 0,
+  passingMarks: 0,
+  mcqs: [],
+  cqs: []
+};
 
     // Initialize questions based on exam type
     if (examType === 'mcq' || examType === 'both') {
