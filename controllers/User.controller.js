@@ -203,7 +203,7 @@ export const logoutUser = async (req, res) => {
         message: 'Subject, exam duration, and exam type are required' 
       });
     }
-    
+    console.log(subject, mcqCount, cqCount, examDuration, examType )
     if (!userId) {
       return res.status(400).json({ 
         success: false, 
