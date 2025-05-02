@@ -1,6 +1,7 @@
 import { CqSchema } from "./Cq.model.js";
 import { mcqSchema } from "./Mcq.model.js";
-
+import express from 'express';
+import mongoose, { Schema } from 'mongoose';
 
 const examSchema = new mongoose.Schema({
    
