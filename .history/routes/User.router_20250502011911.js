@@ -1,5 +1,5 @@
 import Router from "express";
-import { createUser, updateUser, getUser, signInUser, logoutUser, deleteUser, startExam , getExamById} from "../controllers/User.controller.js";
+import { createUser, updateUser, getUser, signInUser, logoutUser, deleteUser, startExam } from "../controllers/User.controller.js";
 import {protectedRoute} from "../middlewares/Auth.middleware.js";
 
 const userRouter = Router();
@@ -17,6 +17,5 @@ userRouter.route('/:id').delete(protectedRoute, deleteUser);
 
 // Exam routes
 userRouter.route('/exam').post(protectedRoute, startExam);
-userRouter.route('/exam/:examId').get(protectedRoute, getExamById);
 
 export default userRouter;

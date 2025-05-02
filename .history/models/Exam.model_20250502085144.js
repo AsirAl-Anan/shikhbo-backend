@@ -15,7 +15,7 @@ const examSchema = new mongoose.Schema({
     totalMarks: { type: Number, required: true },
     passingMarks: { type: Number, required: true },
     obtainedMarks: { type: Number, default: 0 },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    userId
 
 
     

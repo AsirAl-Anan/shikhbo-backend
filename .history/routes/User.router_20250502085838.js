@@ -17,6 +17,6 @@ userRouter.route('/:id').delete(protectedRoute, deleteUser);
 
 // Exam routes
 userRouter.route('/exam').post(protectedRoute, startExam);
-userRouter.route('/exam/:examId').get(protectedRoute, getExamById);
+userRouter.route('/exam/:examI').get(protectedRoute, getExamById);
 
 export default userRouter;

@@ -5,7 +5,7 @@ import { mcqSchema } from "./Mcq.model.js";
 const examSchema = new mongoose.Schema({
    
     subject: { type: String, required: true },
-    duration: { type: Number },
+    duration: { type: Number, default: 180 },
     mcqs: [mcqSchema],
     cqs: [CqSchema], // embedded CQ schema here
   
@@ -15,7 +15,7 @@ const examSchema = new mongoose.Schema({
     totalMarks: { type: Number, required: true },
     passingMarks: { type: Number, required: true },
     obtainedMarks: { type: Number, default: 0 },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    
 
 
     
