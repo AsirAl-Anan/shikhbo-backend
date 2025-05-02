@@ -307,7 +307,7 @@ const examData = {
 export const getExamById = async (req, res) => {
   try {
     const { examId } = req.params;
-    
+    console.log("examId",examId)
     if (!examId) {
       return res.status(400).json({ 
         success: false, 
