@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
 import Cq from "../models/Cq.model.js";
 import MCQ from "../models/Mcq.model.js";
+import Exam from "../models/Exam.model.js";
 // Create a new user
 export const createUser = async (req, res) => {
   const {  email, password,username } = req.body;
